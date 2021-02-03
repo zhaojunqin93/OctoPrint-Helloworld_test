@@ -17,7 +17,7 @@ class Helloworld_testPlugin(octoprint.plugin.SettingsPlugin,
 							octoprint.plugin.StartupPlugin):
 
 	def on_after_startup(self):
-		self._logger.info("OctoPrint_Helloworld_test")
+		self._logger.info("ASDFGHJKL")
 
 	##~~ SettingsPlugin mixin
 
