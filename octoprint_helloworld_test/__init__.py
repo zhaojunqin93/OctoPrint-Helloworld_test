@@ -10,6 +10,31 @@ from __future__ import absolute_import
 # Take a look at the documentation on what other plugin mixins are available.
 
 import octoprint.plugin
+import influxdb_client
+from influxdb_client.client.write_api import SYNCHRONOUS
+import random
+import time
+
+bucket = "6bf8ad0732605327"
+org = "b6cceae0afcd3264"
+token = "e4Z0o1Xi9VlQH8V4Axuuf1gFNeAEdu1DXwcJ4ENpkjSIB9a67EEajiSN3GOu3JCOQakTjpPTxS2woXRseW-fPQ=="
+url = "https://us-central1-1.gcp.cloud2.influxdata.com"
+
+client = influxdb_client.InfluxDBClient(
+	url=url,
+	token=token,
+	org=org
+)
+
+
+def send_job_influxdb():
+	for x in range(100):
+		time.sleep(2)
+		write_api = client.write_api(write_options=SYNCHRONOUS)
+		p = influxdb_client.Point("my_measurement").tag("location", "Prague").field("temperature",random.uniform(1, 100))
+		write_api.write(bucket=bucket, org=org, record=p)
+
+
 
 class Helloworld_testPlugin(octoprint.plugin.SettingsPlugin,
                             octoprint.plugin.AssetPlugin,
@@ -17,7 +42,9 @@ class Helloworld_testPlugin(octoprint.plugin.SettingsPlugin,
 							octoprint.plugin.StartupPlugin):
 
 	def on_after_startup(self):
-		self._logger.info("OctoPrint_Helloworld_test")
+		self._logger.info("QWERTYUIOP")
+		send_job_influxdb()
+		self._logger.info("ZXCVBNM")
 
 	##~~ SettingsPlugin mixin
 
